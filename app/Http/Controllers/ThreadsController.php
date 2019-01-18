@@ -17,6 +17,12 @@ class ThreadsController extends Controller
         $this->middleware('auth');
     }
 
+    public function index()
+    {
+        $threads = Thread::all();
+
+        return view('threads.index', compact('threads'));
+    }
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -30,7 +36,7 @@ class ThreadsController extends Controller
     {
         $data = $request->all();
         $count = Auth::user()->threads->count();
-        if ($count >= 3) {
+        if ($count >= 5) {
             Thread::orderBy('id', 'desc')->limit(3)->first()->delete();
         }
         Thread::create([

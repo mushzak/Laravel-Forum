@@ -3,11 +3,10 @@
 @section('content')
     <div class="container">
         <a href="{{route('thread.create')}}" class="btn btn-success">New Thread</a>
-        <a href="{{route('thread')}}" class="btn btn-info">All Threads</a>
-        <br><br><div class="row justify-content-center">
+        <br><br> <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">My Threads</div>
+                    <div class="card-header">All Threads</div>
 
                     <div class="card-body">
                         @if (session('status'))
@@ -20,19 +19,17 @@
                             <tr>
                                 <th>Name</th>
                                 <th>Content</th>
+                                <th>Owner</th>
                                 <th>Date</th>
-                                <th>Actions</th>
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($user->threads as $thread)
+                            @foreach($threads as $thread)
                                 <tr>
                                     <td>{{$thread->title}}</td>
                                     <td>{{strlen($thread->content) > 75 ? substr($thread->content,0,75)."..." : $thread->content}}</td>
+                                    <td>{{$thread->user->name}}</td>
                                     <td>{{$thread->created_at}}</td>
-                                    <th><a href="{{route('thread.edit',$thread->id)}}" class="btn btn-info">Edit</a>
-                                        <a href="{{route('thread.destroy',$thread->id)}}" class="btn btn-danger">Delete</a>
-                                    </th>
                                 </tr>
                             @endforeach
                             </tbody>
@@ -40,8 +37,8 @@
                             <tr>
                                 <th>Name</th>
                                 <th>Content</th>
+                                <th>Owner</th>
                                 <th>Date</th>
-                                <th>Actions</th>
                             </tr>
                             </tfoot>
                         </table>
