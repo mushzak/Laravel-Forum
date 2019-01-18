@@ -27,8 +27,8 @@
                                 <tr>
                                     <td>{{$threads->title}}</td>
                                     <td>{{$threads->content}}</td>
-                                    <th><a href="{{$threads->id}}" class="btn btn-info">Edit</a>
-                                        <a href="{{$threads->id}}" class="btn btn-danger">Delete</a>
+                                    <th><a href="{{route('thread.edit',$threads->id)}}" class="btn btn-info">Edit</a>
+                                        <a href="{{route('thread.destroy',$threads->id)}}" class="btn btn-danger">Delete</a>
                                     </th>
                                 </tr>
                             @endforeach

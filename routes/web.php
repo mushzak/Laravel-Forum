@@ -20,3 +20,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/thread/create', 'ThreadsController@create')->name('thread.create');
 Route::post('/thread/store', 'ThreadsController@store')->name('thread.store');
+Route::get('/thread/destroy/{thread}', 'ThreadsController@destroy')->name('thread.destroy');
+Route::get('/thread/edit/{thread}', 'ThreadsController@edit')->name('thread.edit');
+Route::post('/thread/update', 'ThreadsController@update')->name('thread.update');
+

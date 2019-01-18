@@ -25,7 +25,7 @@ class EndWithDot implements Rule
      */
     public function passes($attribute, $value)
     {
-       return ($value[strlen($value)-1] == '.') ? true : false ;
+       return (is_null($value) || $value[strlen($value)-1] == '.') ? true : false ;
     }
 
     /**

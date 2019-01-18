@@ -30,7 +30,7 @@ class ThreadsController extends Controller
     {
         $data = $request->all();
         $count = Auth::user()->threads->count();
-        if($count >= 3){
+        if ($count >= 3) {
             Thread::orderBy('id', 'desc')->limit(3)->first()->delete();
         }
         Thread::create([
@@ -41,4 +41,42 @@ class ThreadsController extends Controller
 
         return redirect()->route('home');
     }
+
+    /**
+     * @param Thread $thread
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
+     */
+    public function destroy(Thread $thread)
+    {
+        $thread->delete();
+
+        return redirect()->back();
+    }
+
+    /**
+     * @param Thread $thread
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
+     */
+    public function edit(Thread $thread)
+    {
+        return view('threads.update', compact('thread'));
+    }
+
+    /**
+     * @param StoreThread $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update(StoreThread $request)
+    {
+        $data = $request->all();
+        $thread = Thread::find($data['id']);
+        $thread->title = $data['title'];
+        $thread->content = $data['content'];
+        $thread->save();
+
+        return redirect()->route('home');
+    }
+
 }
