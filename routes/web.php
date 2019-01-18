@@ -24,5 +24,7 @@ Route::get('/thread/destroy/{thread}', 'ThreadsController@destroy')->name('threa
 Route::get('/thread/edit/{thread}', 'ThreadsController@edit')->name('thread.edit');
 Route::post('/thread/update', 'ThreadsController@update')->name('thread.update');
 Route::get('/thread', 'ThreadsController@index')->name('thread');
+Route::get('/thread/{thread}', 'ThreadsController@single')->name('thread.single');
+Route::post('/thread/reply', 'ThreadsController@reply')->name('thread.reply');
 
 

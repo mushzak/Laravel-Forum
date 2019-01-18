@@ -26,7 +26,7 @@
                             <tbody>
                             @foreach($threads as $thread)
                                 <tr>
-                                    <td>{{$thread->title}}</td>
+                                    <td><a href="{{route('thread.single',$thread->id)}}">{{$thread->title}}</a></td>
                                     <td>{{strlen($thread->content) > 75 ? substr($thread->content,0,75)."..." : $thread->content}}</td>
                                     <td>{{$thread->user->name}}</td>
                                     <td>{{$thread->created_at}}</td>

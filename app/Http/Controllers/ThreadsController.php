@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreThread;
+use App\Mail\ReplyNotification;
+use App\Reply;
 use App\Thread;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class ThreadsController extends Controller
 {
@@ -17,12 +21,16 @@ class ThreadsController extends Controller
         $this->middleware('auth');
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index()
     {
         $threads = Thread::all();
 
         return view('threads.index', compact('threads'));
     }
+
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -85,4 +93,43 @@ class ThreadsController extends Controller
         return redirect()->route('home');
     }
 
+    /**
+     * Show single thread
+     *
+     * @param Thread $thread
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function single(Thread $thread)
+    {
+        return view('threads.single', compact('thread'));
+    }
+
+    /**
+     * Add Reply
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function reply(Request $request)
+    {
+
+
+        if (is_null($request->text)) {
+            return redirect()->back();
+        }
+        Reply::create([
+            'user_id' => Auth::user()->id,
+            'thread_id' => $request->id,
+            'text' => $request->text,
+        ]);
+        $thread = Thread::find($request->id);
+
+        $data['user'] = Auth::user();
+        $data['thread'] = $thread;
+        $data['text'] = $request->text;
+
+        Mail::to($thread->user->email)->send(new ReplyNotification($data));
+
+        return redirect()->back();
+    }
 }

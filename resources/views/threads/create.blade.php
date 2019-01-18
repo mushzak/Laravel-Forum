@@ -25,9 +25,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="content">Content</label>
-                                <textarea class="form-control" id="content" placeholder="Content" maxlength="255" name="content">
-
-                                </textarea>
+                                <textarea class="form-control" id="content" placeholder="Content" maxlength="255" name="content"></textarea>
                             </div>
                             <button type="submit" class="btn btn-primary">Create</button>
                         </form>
