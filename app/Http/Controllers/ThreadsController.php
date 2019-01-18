@@ -39,7 +39,10 @@ class ThreadsController extends Controller
         return view('threads.create');
     }
 
-
+    /**
+     * @param StoreThread $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(StoreThread $request)
     {
         $data = $request->all();
@@ -63,7 +66,10 @@ class ThreadsController extends Controller
      */
     public function destroy(Thread $thread)
     {
-        $thread->delete();
+        if ($thread->user_id == Auth::user()->id) {
+            $thread->replies()->delete();
+            $thread->delete();
+        }
 
         return redirect()->back();
     }
@@ -112,8 +118,6 @@ class ThreadsController extends Controller
      */
     public function reply(Request $request)
     {
-
-
         if (is_null($request->text)) {
             return redirect()->back();
         }
@@ -132,4 +136,17 @@ class ThreadsController extends Controller
 
         return redirect()->back();
     }
+
+    /**
+     * @param Thread $thread
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
+     */
+    public function adminDestroy(Thread $thread)
+    {
+        $thread->replies()->delete();
+        $thread->delete();
+        return redirect()->back();
+    }
+
 }
